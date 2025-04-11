@@ -1,0 +1,2 @@
+../Core/Src/average_filter.c:16:6:avg_filter_init	24	static
+../Core/Src/average_filter.c:41:7:avg_filter_update	24	static
