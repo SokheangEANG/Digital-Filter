@@ -1,4 +1,6 @@
 "./Core/Src/average_filter.o"
+"./Core/Src/kalman_filter.o"
+"./Core/Src/low_pass_filter.o"
 "./Core/Src/main.o"
 "./Core/Src/stm32f1xx_hal_msp.o"
 "./Core/Src/stm32f1xx_it.o"
@@ -17,3 +19,4 @@
 "./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_pwr.o"
 "./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc.o"
 "./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_rcc_ex.o"
+"./Drivers/STM32F1xx_HAL_Driver/Src/stm32f1xx_hal_uart.o"
