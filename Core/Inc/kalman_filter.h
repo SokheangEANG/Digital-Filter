@@ -9,26 +9,17 @@
 #define INC_KALMAN_FILTER_H_
 
 typedef struct {
-	float q; // Process noise covariance
-	float r; // Measurement noise covariance
-	float x; // Estimated value
-	float p; // Estimation error covariance
-} KalmanFilter;
+	/* Newer Use */
+	double LastP;          // Last Estimate coveriance
+	double CurrentP;       // Current Estimate coveriance
+	double KalmanOutput;   // Output Filter
+	double KalmanGian;     // Kalman Gain
+	double KalmanQ;
+	double KalmanR;
 
-/*
- * @brief Initializes the Kalman filter with given process and measurement noise covariances.
- * @param kf Pointer to the KalmanFilter structure.
- * @param q Process noise covariance.
- * @param r Measurement noise covariance.
- */
-void KalmanFilter_Init(KalmanFilter* kf, float q, float r);
-/*
- * @brief Updates the Kalman filter with a new measurement.
- * @param kf Pointer to the KalmanFilter structure.
- * @param measurement The new measurement value.
- * @return The updated estimated value.
- */
-float KalmanFilter_Update(KalmanFilter* kf, float measurement);
+} Kalman_Typedef;
 
+void KalmanInit(Kalman_Typedef *kalam_filter, const double kalman_Q, const double kalman_R);
+double KalmanFilter(Kalman_Typedef *kalman_filter, double kalman_input);
 
 #endif /* INC_KALMAN_FILTER_H_ */

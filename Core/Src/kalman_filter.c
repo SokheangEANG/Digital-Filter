@@ -7,25 +7,31 @@
 #include "stm32f1xx_hal.h"
 #include "kalman_filter.h"
 
-void KalmanFilter_Init(KalmanFilter* kf, float q, float r) {
-	/*
-	 * Tune the process noise covariance (q) and measurement noise covariance (r)
-	 * to adjust the filter's responsiveness and stability.
-	 * Higher q values make the filter more responsive to changes.
-	 * Lower r values make the filter more stable.
-	 */
-	kf->q = q; // Process noise covariance
-	kf->r = r; // Measurement noise covariance
-	kf->x = 0; // Initial estimated value
-	kf->p = 1; // Initial estimation error covariance
-}
+double KalmanFilter(Kalman_Typedef *kalman_filter, double kalman_input) {
+	/* Kalman Predict */
+	kalman_filter->CurrentP = kalman_filter->LastP + kalman_filter->KalmanQ;
 
-float KalmanFilter_Update(KalmanFilter* kf, float adc_value) {
-	// Prediction step
-	kf->p += kf->q;
-	// Measurement update step
-	float k = kf->p / (kf->p + kf->r); // Kalman gain
-	kf->x += k * (adc_value - kf->x); // Update estimate
-	kf->p *= (1 - k); // Update estimation error covariance
-	return kf->x; // Return the updated estimated value
+	/* Kalman Gain Equaltion */
+	kalman_filter->KalmanGian = kalman_filter->CurrentP
+			/ (kalman_filter->CurrentP + kalman_filter->KalmanR);
+
+	/* Kalman Optimal Value */
+	kalman_filter->KalmanOutput = kalman_filter->KalmanOutput
+			+ kalman_filter->KalmanGian
+					* (kalman_input - kalman_filter->KalmanOutput);
+
+	/* Update Kalman Filter */
+	kalman_filter->LastP = (1 - kalman_filter->KalmanGian)
+			* kalman_filter->CurrentP;
+
+	return (kalman_filter->KalmanOutput);
+}
+void KalmanInit(Kalman_Typedef *kalman_filter, const double kalman_Q, const double kalman_R)
+{
+	kalman_filter->LastP = 0.02;
+	kalman_filter->CurrentP = 0.00;
+	kalman_filter->KalmanOutput = 0.00;
+	kalman_filter->KalmanGian = 0.00;
+	kalman_filter->KalmanQ = kalman_Q;
+	kalman_filter->KalmanR = kalman_R;
 }
