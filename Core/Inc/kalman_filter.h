@@ -4,7 +4,6 @@
  *  Created on: Apr 11, 2025
  *      Author: astrox
  */
-
 #ifndef INC_KALMAN_FILTER_H_
 #define INC_KALMAN_FILTER_H_
 
